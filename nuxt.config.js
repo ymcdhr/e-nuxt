@@ -6,7 +6,7 @@
 module.exports = {
   server: {
     host: '0.0.0.0', // 生产环境上配置0.0.0.0才能对外访问
-    port: 80
+    port: 3000
   }
   // 路由
   router: {
