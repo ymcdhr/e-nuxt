@@ -1,0 +1,23 @@
+{
+  "name": "my-nuxt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cookieparser": "^0.1.0",
+    "dayjs": "^1.10.5",
+    "js-cookie": "^2.2.1",
+    "markdown-it": "^12.1.0",
+    "nuxt": "^2.15.7"
+  }
+}
