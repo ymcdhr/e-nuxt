@@ -1,39 +1,83 @@
-# 项目介绍
+# 一、项目介绍
+1. 本项目功能：实现一个最基本的博客网站，使用了RealWorld的模板和API
+2. 本项目使用：Vue + VueX + Nuxt 服务端渲染的方式
+3. 本项目使用：Nodejs + GitHub Action 自动化部署 
 
+# 二、项目使用
 
-# 项目使用
+#### 1、下载项目
+```
+> git clone https://github.com/ymcdhr/e-nuxt.git
+```
 
-#### 安装
+#### 2、安装项目
+```
+> cd e-nuxt
+> npm install
+```
 
-#### 运行
+#### 3、本地调试
+```
+> npm run dev    // 方案1：浏览器直接调试，不生成本地文件
 
-#### 文档
+> npm run build  // 方案2：先打包构建，再运行本地文件
+> npm run start  // 方案2：启动 nuxt
+```
+
+#### 4、自动化部署
+1. 本项目使用 Github Action 自动部署到 Linux 服务器上；
+- 修改项目代码后，提交标签到仓库会触发自动构建；注意标签名称必须是v开头，例如：v0.0.1；
+```
+> git tag -a v0.0.1    // 创建标签
+> git commit -am ''    // 提交到本地仓库
+> git push             // 推送到远端仓库
+```
+- Github Action 会自动构建项目，然后部署到指定的 Linux 主机上：106.75.93.71；
+- 当前本项目的 Git 仓库地址为：https://github.com/ymcdhr/e-nuxt.git；
+
+2. 本项目配置的 Linux 主机使用的 UCloud 云服务
+```
+- UCloud 控制台地址：https://console.ucloud.cn/
+- 用户名：252332076@qq.com
+- 密码：Y*********7
+- Linux 主机 IP：106.75.93.71
+- 账号：root
+- 密码：Y*********7
+```
+
+#### 5、RealWorld 接口文档
 - 页面模板：https://github.com/gothinkster/realworld-starter-kit
 - 接口文档：https://github.com/gothinkster/realworld/tree/master/api
 
+#### 6、目录结构
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/155300_48b4aa66_9130428.png "屏幕截图.png")
 
 
-# 1. Nuxt
+# 三、Nuxt 基本特点
 
-#### 1. nuxt官方文档：
+#### 1、Nuxt 官方文档：
 - 使用文档：https://zh.nuxtjs.org/docs/2.x/get-started/installation
-- 中文版介绍：https://www.nuxtjs.cn/guide
+- 中文介绍：https://www.nuxtjs.cn/guide
 
-#### 2. nuxt的特点：
-- 也能开发spa，但不是它的强项
+#### 2、Nuxt 的特点：
+- nuxt能够同时在服务端渲染和客户端渲染页面
+- nuxt集成了vue、vue-router、vuex等框架
+- nuxt也能开发spa，但不是它的强项
+- nuxt更多特点参考官方文档
 
-#### 3. nuxt静态化页面的应用
+#### 3、Nuxt 静态化页面的应用
 
-# 2. 基本使用
-#### 1. 使用场景
+# 四、Nuxt 基本使用
+#### 1、Nuxt 使用场景
 1. 初始项目：直接使用
 2. 已有的Nodejs服务端项目：可以把Nuxt当做一个中间件集成到Node Web Server中
 3. 现有的Vue.js项目：来处理首屏渲染或者SEO问题
 - 需要非常熟悉Nuxt
 - 至少10%的代码改动量
 
-#### 2. 最简单的DEMO
-1. 安装
+#### 2、Nuxt 最简单的DEMO
+1. 安装nuxt
 ```bash
 > npm init -y
 > npm i nuxt
@@ -73,16 +117,16 @@ export default {
 > npm run dev
 ```
 
-#### 3. Nuxt的路由
+#### 3、Nuxt 的路由
 
-1. 使用方法基本和vue-router一样；<nuxt /> 替代<router-view />
+1. 使用方法基本和vue-router一样；其中：<nuxt /> 替代 <router-view />、<nuxt-link /> 替代 <router-link />
 - nuxt：https://www.nuxtjs.cn/guide/routing
 - vue-router：https://router.vuejs.org/zh/installation.html
 
-2. Nuxt.js 依据 pages 目录结构自动生成 vue-router 模块的路由配置。例如：pages里面有index.vue、about.vue两个文件，那路由就对应localhost:3000/、localhost:3000/about
+2. Nuxt.js 依据 pages 目录结构自动生成 vue-router 模块的路由配置。例如：pages里面有index.vue、about.vue两个文件，那路由就对应localhost:3000/、localhost:3000/about；也可以自定义路由配置，放到 nuxt.config.js 中（参考项目示例代码）。
 3. 几种导航
 - a 链接，刷新页面，走服务端渲染；
-- nuxt-link 导航链接，加载路由页面；nuxt-link和router-link使用一模一样。
+- nuxt-link 导航链接，直接客户端加载路由页面，走客户端渲染；nuxt-link 和 router-link 使用一模一样。
 ```html
 <!-- <nuxt-link>标签中动态绑定to地址 -->
 <nuxt-link :to="{
@@ -110,14 +154,14 @@ export default {
   }"
 >#{{ tag }}</nuxt-link>
 ```
-- 编程式导航，也和vue一样，在事件方法中执行代码：
+- 编程式导航，走客户端渲染；也和 vue-router 一样使用，在事件方法中执行代码：
 ```
 this.$router.push('/')
 ```
 
-4. 动态路由，和vue-router一样也使用$route.params获取参数。
+4. 动态路由，和 vue-router 一样也使用 $route.params 获取参数。
 
-5. 嵌套路由，和vue-router一样；但是需要创建一个和父组件同名的目录；然后在父组件(.vue文件) 内增加 <nuxt-child/> 用于显示子视图内容（类似于router-view）。
+5. 嵌套路由，和 vue-router 一样使用；但是自动生成前，需要创建一个和父组件同名的目录；然后在父组件(.vue文件) 内增加 <nuxt-child/> 用于显示子视图内容（类似于子路由的 router-view）。
 
 6. 路由的自定义配置：
 - https://www.nuxtjs.cn/api/configuration-router
@@ -126,9 +170,10 @@ this.$router.push('/')
 - ...
 
 
-#### 4. Nuxt的视图
+#### 4、Nuxt 的视图，入口页面和布局
 1. 官方文档：https://www.nuxtjs.cn/guide/views
-2. layout，类似嵌套组件；在default.vue里面定义页面结构，嵌套子路由等。如果定义了layout，pages下面的页面会放到<nuxt />的位置。（default.vue是layout默认的页面入口）
+2. 固定的 layout 目录作为入口页面，其页面类似嵌套组件；在 default.vue 里面定义页面结构，嵌套子路由等。如果定义了 layout，pages 目录里面的页面会按照路由放到 <nuxt /> 的位置。（default.vue 是 layout 默认的页面入口）
+3. 如果没有使用固定的 layout 入口，也可以自定义路由指定路径。
 
 ```
 <template>
@@ -151,16 +196,16 @@ export default {
 </style>
 ```
 
-![输入图片说明](https://images.gitee.com/uploads/images/2021/0703/185330_dc57c83e_9130428.png "屏幕截图.png")
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/155930_9878b827_9130428.png "屏幕截图.png")
 
-#### 5. 异步数据 asyncData（需要服务端渲染才使用）
+#### 5、Nuxt 异步数据 asyncData（需要服务端渲染、SEO优化才使用）
 1. 基本用法：
-- asyncData 返回的数据合并到组件 data 方法一并给组件使用
-- asyncData 在服务端渲染的时候执行，在客户端路由更新之前也会执行
+- asyncData 返回的数据合并到组件 data() 方法一并给组件使用，相当于混淆到了动态数据上；
+- asyncData 在服务端渲染的时候执行，在客户端路由更新之前也会执行。
 
 2. 注意事项：
-- asyncData 是在页面组件中（pages目录下的页面）的固定用法，不能在其它组件中使用；
-- asyncData 里面没有this，因为它是在组件初始化之前被调用的
+- asyncData 是在页面组件中（必须是要pages目录下的页面）的固定用法，不能在其它自定义组件中使用；
+- asyncData 里面没有this，因为它是在组件初始化之前被调用的；但是可以使用上下文context获取数据。
 
 ```js
 export default {
@@ -210,20 +255,16 @@ export default {
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0706/124720_2aea3089_9130428.png "屏幕截图.png")
 
-4. 监听query参数的改变
+4. 监听url中查询数据query参数的改变
 - 使用场景：默认情况下，url中的query改变不会调用asyncData方法。
 - 打开配置：在页面中加入参数 watchQuery
 ```
-watchQuery: ['page'],// 也可以是true，所有查询参数
+watchQuery: ['page'],// 也可以是true，监听所有查询参数
 ```
 
-# Nuxt的目录结构
-#### 样式资源怎么处理？
 
 
-
-# nuxt.config.js 配置文件
-#### 1. 自定义路由配置
+#### 6、Nuxt 自定义路由配置
 ```
 module.exports = {
     router: {
@@ -246,12 +287,12 @@ module.exports = {
 
 
 
-# Nuxt中登录状态的缓存
+#### 7、Nuxt 中登录状态的缓存
 1. 要考虑服务端和客户端渲染的时候都能拿到状态
-2. 使用JWT方案，客户端处理：
+2. 使用JWT方案，客户端的处理：
 - 保存用户的登录状态，存储到vuex容器$store中（nuxt默认支持vuex）；
 - 为了防止刷新页面数据丢失，我们需要把数据持久化，存储到cookie中；然后刷新页面时，浏览器自动携带cookie给服务器，服务端再使用cookie调用commit更新数据到$store中；
-- 服务端和客户端使用同一段vuex的代码，state、mutations的定义。
+- 服务端和客户端使用同一段vuex的代码，共用state、mutations的定义。
 ```
 <script>
 import { login, register } from '@/api/user'
@@ -308,7 +349,7 @@ export default {
 }
 </script>
 ```
-3. 使用JWT方案，服务端处理：
+3. 使用JWT方案，服务端的处理：
 - Nuxt已经集成vuex，需要创建一个名为：store的目录；
 - 以下代码中的state、mutations服务端和客户端共用；
 - 以下代码中的nuxtServerInit会在服务端渲染期间自动调用，客户端不调用。
@@ -361,17 +402,14 @@ export const actions = {
 
 ```
 
-# Nuxt中处理页面权限
-没有登录的时候是不允许访问某些页面的，如果用户直接输入url应该禁止访问。
+#### 8、Nuxt中使用中间件，处理页面权限
+1. 没有登录的时候是不允许访问某些页面的，如果用户直接输入url应该跳转。
 
-#### 1. 客户端的 spa 中是怎么处理权限的？
+2. 客户端的 spa 中是怎么处理权限的？使用路由拦截、或者解析接口后跳转。
 
-#### 2. Nuxt中如何处理页面权限？
-1. 路由中间件：https://www.nuxtjs.cn/guide/routing#%E4%B8%AD%E9%97%B4%E4%BB%B6
-
-
-2. 使用中间件：
-- 定义中间件：middleware/authenticated.js
+3. Nuxt中如何处理页面权限？
+- 路由中间件文档：https://www.nuxtjs.cn/guide/routing#%E4%B8%AD%E9%97%B4%E4%BB%B6
+- 定义中间件：middleware/authenticated.js，目录名称必须为：middleware，authenticated.js文件名使用时也必须一致。
 ```
 /**
  * 验证是否登录的中间件
@@ -393,10 +431,10 @@ export default {
 }
 ```
 
-# Nuxt的插件
-#### 插件的作用
+#### 9、Nuxt 的插件使用方法
+1. 插件的作用：在 Nuxt 中使用常用的插件，例如：axios；我们还能在插件中拿到上下文 context 数据。
 
-#### 注册插件：nuxt.config.js
+2. 注册插件：nuxt.config.js
 ```
 module.exports = {
     // 路由
@@ -411,15 +449,14 @@ module.exports = {
 }
 
 ```
-#### 使用插件
-1. axios 进行请求的时候，使用interceptors进行拦截；
-2. 通过插件机制获取到上下文对象（query、params、req、res、app、store...）
-3. 插件导出函数必须作为 export default 成员，只能有一个
+3. 插件 axios 的使用示例
+- axios 进行请求的时候，使用interceptors进行拦截；
+- 通过插件机制获取到上下文对象（query、params、req、res、app、store...）
+- 插件导出函数必须作为 export default 成员，只能有一个
 ```
 /**
  * 基于 axios 封装的请求模块
  */
-
  import axios from 'axios'
 
  // 创建请求对象
@@ -456,8 +493,8 @@ module.exports = {
  }
 ```
 
-# 使用插件封装nuxt全局过滤器
-#### 1. 创建vue filter，定义插件：dayjs.js
+4. 使用插件封装nuxt全局过滤器
+- 创建vue filter，定义插件：dayjs.js
 ```
 // 插件定义dayjs.js
 import Vue from 'vue'
@@ -470,7 +507,7 @@ Vue.filter('date', (value, format = 'YYYY-MM-DD HH:mm:ss') => {
 
 ```
 
-#### 2. 注册插件，在：nuxt.config.js
+- 注册插件，在：nuxt.config.js
 ```
 module.exports = {
     // 路由
@@ -486,12 +523,12 @@ module.exports = {
 }
 ```
 
-#### 3. 使用插件，在vue模板中调用
+- 使用插件，在vue模板中调用
 ```
 <span class="date">{{ article.createdAt | date('MM DD,YYYY') }}</span>
 ```
 
-# Nuxt优化SEO
+#### 10、Nuxt 优化SEO
 1. 优化title
 2. 优化meta标签，参考官方文档
 
@@ -507,58 +544,198 @@ module.exports = {
     }
 ```
 
-# Nuxt怎么调试？
-#### 定位错误？
-#### 本地开发的时候，怎么配代理？是否可以使用类似于webpack-dev-server的东西？
+# 六、Nuxt 怎么调试？
+1. 如何定位错误？
+2. 本地开发的时候，怎么配代理？是否可以使用类似于webpack-dev-server的东西？
 
-# Nuxt应用发布？
-#### 官方文档：
-https://www.nuxtjs.cn/guide/commands
+# 七、Nuxt 应用手动部署
+#### 1、准备工作
+1. nuxt官方文档：https://www.nuxtjs.cn/guide/commands
+2. 购买/配置主机：https://gitee.com/lagoufed/fed-e-questions/tree/master/part3/%E7%AC%94%E8%AE%B01-%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B4%AD%E4%B9%B0%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96#4%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F
+3. 服务器上需要安装git、nodejs、pm2等工具
+- 安装 git、nodejs 需要下载官方linux下的安装包（wget 安装包，解压，安装/有些软件只需要挪一下文件位置到：usr/local/bin）
 
-#### 打包
+```
+> ssh root@106.75.93.71        // 远程登录 主机
+
+> wget https://nodejs.org/dist/v14.17.3/node-v14.17.3-linux-x64.tar.xz // 下载 nodejs
+> xz -d node-v14.17.3-linux-x64.tar.xz   // 解压安装包
+> tar -xvf node-v14.17.3-linux-x64.tar.xz
+> mv node-v14.17.3-linux-x64 nodejs // 修改目录名称
+
+// 查看目录中是否有bin目录，如果有直接移动到系统/usr/local/bin/目录；或者建立软连接即可：
+> ls -l
+total 632
+drwxr-xr-x 2 1001 1001     40 Jul  5 21:57 bin
+-rw-r--r-- 1 1001 1001 529425 Jul  5 21:57 CHANGELOG.md
+drwxr-xr-x 3 1001 1001     18 Jul  5 21:57 include
+drwxr-xr-x 3 1001 1001     26 Jul  5 21:57 lib
+-rw-r--r-- 1 1001 1001  80135 Jul  5 21:57 LICENSE
+-rw-r--r-- 1 1001 1001  30902 Jul  5 21:57 README.md
+drwxr-xr-x 5 1001 1001     45 Jul  5 21:57 share
+
+// 建立软连接
+> ln -s /home/nodejs/bin/npm /usr/local/bin/ 
+> ln -s /home/nodejs/bin/node /usr/local/bin/
+```
+
+- 然后 npm 安装 pm2
+```
+> npm install --global pm2
+```
+
+
+#### 2、项目打包，现在开发环境构建，然后将其上传到服务器
 1. npm run build 打包构建到.nuxt/dist
 2. npm run start 启动网页，读取的.nuxt/dist里面的本地文件
 
-#### 上传打包文件到服务器
-1. 需要传哪些文件到服务器？
-- .nuxt/dist目录 打包文件目录
-- static 静态文件目录
-- nuxt.config.js nuxt配置文件
-- package.json 在服务端安装资源
-![输入图片说明](https://images.gitee.com/uploads/images/2021/0706/220235_dcfdbe74_9130428.png "屏幕截图.png")
+#### 3、上传打包文件到服务器
+1. 需要传哪些文件？
+```
+- .nuxt/dist目录     => 打包文件目录
+- static             => 静态文件目录
+- nuxt.config.js     => nuxt配置文件
+- package.json       => 在服务端安装资源
+- package.lock.json 
+- pm2.config.js      => pm2配置文件
+```
 
-2. 上传文件到服务器
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/162958_b6ea8006_9130428.png "屏幕截图.png")
+
+2. 上传文件到服务器(以 Linux 主机为例)
+- 可以先将所有文件压缩成 tar 文件，上传压缩包到服务器之后再解压
+- 使用git bash、putty、xshell等工具执行scp命令都行：
 ```
 scp 路径/文件 root@ip:/路径
 ls -a 查看linux目录所有文件
 ```
- 
-3. 访问路径
-使用公网ip访问
 
-#### 使用PM2启动node服务
-![输入图片说明](https://images.gitee.com/uploads/images/2021/0706/220826_f5753f82_9130428.png "屏幕截图.png")
+3. 如果上传文件比较麻烦，可以在服务器上git clone，直接在本地构建
+```
+> git clone https://github.com/ymcdhr/e-nuxt.git
+> cd e-nuxt
+> npm install
+> npm run build
+> npm run start // 启动 node 服务
+> pm2 start npm --start  // 或者使用 pm2 启动，替代 npm run start
+```
 
-> pm2 start npm --start
+4. pm2 常用命令
+- pm2 list 查看列表
+- pm2 start
+- pm2 stop
+- pm2 reload
+- pm2 restart
+- pm2 delete
 
-![输入图片说明](https://images.gitee.com/uploads/images/2021/0706/221519_d2483976_9130428.png "屏幕截图.png")
-
-#### 自动化部署
-1. 流程
+# 八、Nuxt 应用自动化部署
+#### 1、流程
 ![输入图片说明](https://images.gitee.com/uploads/images/2021/0706/221818_b9e43595_9130428.png "屏幕截图.png")
 
-2. CI/CD 有哪些工具
+#### 2、CI/CD 有哪些工具
 - Jenkins
 - Gitlab CI
 - GitHub Actions
 - Travis CI
 - Circle CI
 
-#### GitHub Actions
-1. 环境准备
-- 购买主机
-- 配置主机：https://gitee.com/lagoufed/fed-e-questions/tree/master/part3/%E7%AC%94%E8%AE%B01-%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B4%AD%E4%B9%B0%E4%B8%8E%E5%88%9D%E5%A7%8B%E5%8C%96#4%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F
+#### 3、使用GitHub Actions 实现自动化部署；这里写了一个执行shell脚本，执行可在linux上自动安装nodejs、pm2；在linux服务器上执行项目中的脚本：install-nodejs.sh
+```bash
+#!/bin/bash
 
-3. 
+# 命令1 && 命令2   命令1执行完成后，再执行命令2
+nver='v14.16.1'                 #定义版本变量 nver
+ndir="node-${nver}-linux-x64"   #定义目录变量 ndir
+nfile="${ndir}.tar.xz"          #定义压缩文件名变量 nfile
 
+cd /usr/local                   #切换目录
+wget https://nodejs.org/dist/$nver/$nfile  $下载文件
+tar xvf $nfile    #文件拆包解压
+mv $ndir nodejs   #对目录重命名
+rm -rf $nfile     #删除压缩包文件
+
+cd nodejs/bin     #进入目录
+
+# 获取真实路径, 软链接到 /usr/bin 中, 使命令全局可用. -f为强制创建，会覆盖
+ln -sf `readlink -f node` /usr/bin/node
+ln -sf `readlink -f npm`  /usr/bin/npm
+ln -sf `readlink -f npx`  /usr/bin/npx
+
+
+# 配置镜像
+npm config set registry http://registry.npm.taobao.org
+# 全局安装pm2
+npm i pm2 -g
+# 建立软链接. 使pm2全局使用
+ln -sf `readlink -f pm2`  /usr/bin/pm2
+# 返回家目录
+cd
+
+```
+
+#### 4、配置Github Action 的秘钥 token
+1. Github个人设置：Settings => Developer settings => Personal access tokens => New
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/131309_d88f243a_9130428.png "屏幕截图.png")
+
+2. 赋予token仓库操作权限，生成token，并复制下来
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/131509_18c53f89_9130428.png "屏幕截图.png")
+
+3. 转到e-nuxt仓库：Settings => Secrets => New Secret 创建Secret，输入token
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/132013_851c789d_9130428.png "屏幕截图.png")
+
+#### 5、配置Github Action 的 yml 文件，制定自动化构建流程
+1. 在项目中创建main.yml文件，并存放到目录.github/workflows；该文件定义了github action的一系列动作。
+2. main.yml文件定义流程：https://github.com/ymcdhr/e-nuxt/blob/master/.github/workflows/main.yml
+- 打包构建 => 
+- 发布 Release => 
+- 上传构建结果到 Release => 
+- 部署到服务器
+3. yaml文件语法：https://www.ruanyifeng.com/blog/2016/07/yaml.html
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/132149_4b5e0d9e_9130428.png "屏幕截图.png")
+
+4. yaml中定义的触发构建的条件：提交tag版本以v开头，例如v0.0.1
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/135135_36d63c49_9130428.png "屏幕截图.png")
+
+5. 将以下几个参数都添加到git的Secret中
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/133116_a39612ca_9130428.png "屏幕截图.png")
+
+- host => 部署的主机IP
+- username => 登录主机的账号，一般为root
+- password => 登录主机的密码
+- port => 部署的主机ssh端口，默认为22
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/133524_b99f8e1c_9130428.png "屏幕截图.png")
+
+6. 注意：生成的release包的地址要修改为自己的git地址：
+
+https://github.com/lipengzhou/realworld-nuxtjs/releases/latest/download/release.tgz<br>
+==><br>
+https://github.com/ymcdhr/e-nuxt/releases/latest/download/release.tgz
+
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/133823_7a8d99a0_9130428.png "屏幕截图.png")
+
+7. 注意：pm2.config.js配置文件为：
+```
+{
+  "apps": [
+    {
+      "name": "nuxt-realworld-demo",
+      "script": "npm",
+      "args": "start"
+    }
+  ]
+}
+
+```
+
+#### 6、触发构建，然后提交tag，到git仓库action中去查看构建的结果
+
+![输入图片说明](https://images.gitee.com/uploads/images/2021/0707/140704_bf84c5c1_9130428.png "屏幕截图.png")
 
